@@ -2,10 +2,12 @@ import os
 import importlib.util
 from typing import List, Dict
 from benchmarks.base_benchmark import BaseBenchmark
+from api_handler import get_openrouter_client
 
 class BenchmarkSuite:
     def __init__(self):
         self.all_benchmarks = self._discover_benchmarks()
+        self.client = get_openrouter_client()
 
     def _discover_benchmarks(self):
         discovered_benchmarks = {}
@@ -28,18 +30,21 @@ class BenchmarkSuite:
         
         return discovered_benchmarks
 
-    def run(self, models: List[str], client, benchmark_ids: List[str] = None) -> Dict[str, Dict[str, float]]:
-        benchmarks_to_run = {bid: self.all_benchmarks[bid] for bid in benchmark_ids if bid in self.all_benchmarks}
-        if len(benchmarks_to_run) != len(benchmark_ids):
-            missing = set(benchmark_ids) - set(benchmarks_to_run.keys())
-            print(f"Warning: The following benchmarks were not found: {missing}")
+    def run(self, models: List[str], benchmark_ids: List[str] = None) -> Dict[str, Dict[str, float]]:
+        if benchmark_ids is None:
+            benchmarks_to_run = self.all_benchmarks
+        else:
+            benchmarks_to_run = {bid: self.all_benchmarks[bid] for bid in benchmark_ids if bid in self.all_benchmarks}
+            if len(benchmarks_to_run) != len(benchmark_ids):
+                missing = set(benchmark_ids) - set(benchmarks_to_run.keys())
+                print(f"Warning: The following benchmarks were not found: {missing}")
 
         results = {model: {} for model in models}
         for model in models:
             for benchmark_id, benchmark in benchmarks_to_run.items():
                 try:
                     benchmark.setup()
-                    score = benchmark.run(model, client)
+                    score = benchmark.run(model, self.client)
                     results[model][benchmark_id] = score
                 finally:
                     benchmark.cleanup()
