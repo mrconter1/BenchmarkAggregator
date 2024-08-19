@@ -1,4 +1,3 @@
-import os
 import asyncio
 import csv
 import random
