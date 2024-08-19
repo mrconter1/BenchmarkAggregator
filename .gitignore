@@ -4,3 +4,4 @@ __pycache__/benchmark_suite.cpython-310.pyc
 benchmarks/__pycache__/base_benchmark.cpython-310.pyc
 benchmarks/__pycache__/gsm8k_benchmark.cpython-310.pyc
 benchmarks/__pycache__/gpqa_diamond_benchmark.cpython-310.pyc
+benchmarks/__pycache__/drop_benchmark.cpython-310.pyc
