@@ -17,6 +17,7 @@ class MMULProBenchmark(BaseBenchmark):
         formatted_question = f"{question}\n\nOptions:\n"
         for i, option in enumerate(options):
             formatted_question += f"{chr(65 + i)}. {option}\n"
+        formatted_question += f"Final answer should be the single letter you choose."
         return formatted_question
 
     def get_correct_answer(self, row: pd.Series) -> str:
