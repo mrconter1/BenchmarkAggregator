@@ -1,6 +1,6 @@
+import os
+import importlib.util
 from typing import List, Dict
-import inspect
-import benchmarks
 from benchmarks.base_benchmark import BaseBenchmark
 
 class BenchmarkSuite:
@@ -9,12 +9,23 @@ class BenchmarkSuite:
 
     def _discover_benchmarks(self):
         discovered_benchmarks = {}
-        for name, obj in inspect.getmembers(benchmarks):
-            if inspect.ismodule(obj):
-                for class_name, class_obj in inspect.getmembers(obj):
-                    if inspect.isclass(class_obj) and issubclass(class_obj, BaseBenchmark) and class_obj != BaseBenchmark:
-                        instance = class_obj()
+        benchmark_dir = os.path.join(os.path.dirname(__file__), 'benchmarks')
+        
+        for filename in os.listdir(benchmark_dir):
+            if filename.endswith('.py') and filename != 'base_benchmark.py':
+                module_name = filename[:-3]  # Remove .py extension
+                module_path = os.path.join(benchmark_dir, filename)
+                
+                spec = importlib.util.spec_from_file_location(module_name, module_path)
+                module = importlib.util.module_from_spec(spec)
+                spec.loader.exec_module(module)
+                
+                for item_name in dir(module):
+                    item = getattr(module, item_name)
+                    if isinstance(item, type) and issubclass(item, BaseBenchmark) and item != BaseBenchmark:
+                        instance = item()
                         discovered_benchmarks[instance.id] = instance
+        
         return discovered_benchmarks
 
     def run(self, models: List[str], client, benchmark_ids: List[str] = None) -> Dict[str, Dict[str, float]]:

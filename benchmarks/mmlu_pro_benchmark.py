@@ -3,7 +3,7 @@ import os
 import requests
 import pandas as pd
 from typing import List
-from .base_benchmark import BaseBenchmark
+from benchmarks.base_benchmark import BaseBenchmark
 
 class MMULProBenchmark(BaseBenchmark):
     def __init__(self):
