@@ -1,23 +1,25 @@
-
 import os
 import requests
 import pandas as pd
 from typing import List
+from urllib.parse import urlparse
 from benchmarks.base_benchmark import BaseBenchmark
 
 class MMULProBenchmark(BaseBenchmark):
     def __init__(self):
         super().__init__()
         self.id = "MMLU-Pro"
+        self.data_url = "https://huggingface.co/datasets/TIGER-Lab/MMLU-Pro/resolve/main/data/test-00000-of-00001.parquet"
 
     def setup(self):
         self.create_temp_dir()
         self.download_data()
 
     def download_data(self):
-        url = "https://huggingface.co/datasets/TIGER-Lab/MMLU-Pro/resolve/main/data/test-00000-of-00001.parquet"
+        parsed_url = urlparse(self.data_url)
+        self.data_file = os.path.basename(parsed_url.path)
         local_path = os.path.join(self.temp_dir, self.data_file)
-        self.download_file(url, local_path)
+        self.download_file(self.data_url, local_path)
 
     def run(self, model: str, client) -> float:
         df = pd.read_parquet(os.path.join(self.temp_dir, self.data_file))
@@ -30,7 +32,7 @@ class MMULProBenchmark(BaseBenchmark):
             correct_answer = row['answer']
 
             prompt = self.construct_prompt(question, options)
-            model_answer = client.query_model(client, model, prompt)
+            model_answer = self.query_model(client, model, prompt)
 
             if model_answer.strip().upper() == correct_answer:
                 correct_answers += 1
@@ -44,16 +46,24 @@ class MMULProBenchmark(BaseBenchmark):
         prompt += "\nPlease provide the letter of the correct answer."
         return prompt
 
+    def query_model(self, client, model: str, prompt: str) -> str:
+        response = client.chat.completions.create(
+            model=model,
+            messages=[
+                {"role": "user", "content": prompt}
+            ]
+        )
+        return response.choices[0].message.content
+
     def cleanup(self):
         self.remove_temp_dir()
 
+    @staticmethod
     def download_file(url: str, local_path: str):
         try:
-            # Send a HTTP request to the URL
             response = requests.get(url, stream=True)
-            response.raise_for_status()  # Check for HTTP request errors
+            response.raise_for_status()
 
-            # Write the content of the response to a file
             with open(local_path, 'wb') as file:
                 for chunk in response.iter_content(chunk_size=8192):
                     file.write(chunk)
