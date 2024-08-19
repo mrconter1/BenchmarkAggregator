@@ -1,23 +1,17 @@
-from api_handler import get_openrouter_client, query_model
-from benchmarks.mmlu_pro_benchmark import MMULProBenchmark
+from api_handler import get_openrouter_client
+from benchmark_suite import BenchmarkSuite
 
 def main():
-    # Single model to test
-    model = "openai/gpt-4o-mini-2024-07-18"
-
-    # Initialize OpenRouter client
+    models = ["openai/gpt-4o-mini-2024-07-18"]
     client = get_openrouter_client()
 
-    # Initialize benchmarks
-    mmlu_pro = MMULProBenchmark()
+    suite = BenchmarkSuite()
 
-    print(f"Running benchmark for {model}")
-    
-    # Run MMLU-Pro benchmark
-    mmlu_pro_score = mmlu_pro.run_benchmark(model, client)
-    print(f"MMLU-Pro score for {model}: {mmlu_pro_score}")
+    # Specify which benchmarks to run
+    benchmark_ids = ["MMLU-Pro"]  # Use the benchmark ID here
 
-    # Add more benchmarks here as needed
+    results = suite.run(models, client, benchmark_ids)
+    suite.print_results(results)
 
 if __name__ == "__main__":
     main()
