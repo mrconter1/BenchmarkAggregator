@@ -25,25 +25,22 @@ class MMULProBenchmark(BaseBenchmark):
         df = pd.read_parquet(os.path.join(self.temp_dir, self.data_file))
         correct_answers = 0
         total_questions = len(df)
-
         for _, row in df.iterrows():
             question = row['question']
             options = row['options']
             correct_answer = row['answer']
-
             prompt = self.construct_prompt(question, options)
-            model_answer = self.query_model(client, model, prompt)
-
+            model_response = self.query_model(client, model, prompt)
+            model_answer = self.parse_model_answer(model_response)
             if model_answer.strip().upper() == correct_answer:
                 correct_answers += 1
-
         return correct_answers / total_questions
 
     def construct_prompt(self, question: str, options: List[str]) -> str:
         prompt = f"{question}\n\nOptions:\n"
         for i, option in enumerate(options):
             prompt += f"{chr(65 + i)}. {option}\n"
-        prompt += "\nPlease provide the letter of the correct answer."
+        prompt += "\nInstructions: Please reason through the question and options. After your reasoning, provide the letter of the correct answer enclosed in [answer] tags. For example: [answer]A[/answer]"
         return prompt
 
     def query_model(self, client, model: str, prompt: str) -> str:
@@ -55,6 +52,16 @@ class MMULProBenchmark(BaseBenchmark):
         )
         return response.choices[0].message.content
 
+    def parse_model_answer(self, response: str) -> str:
+        start_tag = "[answer]"
+        end_tag = "[/answer]"
+        start_index = response.find(start_tag)
+        end_index = response.find(end_tag)
+        if start_index != -1 and end_index != -1:
+            return response[start_index + len(start_tag):end_index].strip()
+        else:
+            return response  # Return the full response if tags are not found
+
     def cleanup(self):
         self.remove_temp_dir()
 
@@ -63,7 +70,6 @@ class MMULProBenchmark(BaseBenchmark):
         try:
             response = requests.get(url, stream=True)
             response.raise_for_status()
-
             with open(local_path, 'wb') as file:
                 for chunk in response.iter_content(chunk_size=8192):
                     file.write(chunk)
