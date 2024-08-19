@@ -8,7 +8,7 @@ async def main():
     models = ["openai/gpt-4o-mini-2024-07-18"]
 
     # Specify which benchmarks to run
-    benchmark_ids = ["MMLU-Pro"]  # Use the benchmark ID here
+    benchmark_ids = ["MMLU-Pro", "GSM8K"]
 
     results = await suite.run(models, benchmark_ids)
     suite.print_results(results)
