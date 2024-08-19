@@ -29,13 +29,10 @@ class BenchmarkSuite:
         return discovered_benchmarks
 
     def run(self, models: List[str], client, benchmark_ids: List[str] = None) -> Dict[str, Dict[str, float]]:
-        if benchmark_ids is None:
-            benchmarks_to_run = self.all_benchmarks
-        else:
-            benchmarks_to_run = {bid: self.all_benchmarks[bid] for bid in benchmark_ids if bid in self.all_benchmarks}
-            if len(benchmarks_to_run) != len(benchmark_ids):
-                missing = set(benchmark_ids) - set(benchmarks_to_run.keys())
-                print(f"Warning: The following benchmarks were not found: {missing}")
+        benchmarks_to_run = {bid: self.all_benchmarks[bid] for bid in benchmark_ids if bid in self.all_benchmarks}
+        if len(benchmarks_to_run) != len(benchmark_ids):
+            missing = set(benchmark_ids) - set(benchmarks_to_run.keys())
+            print(f"Warning: The following benchmarks were not found: {missing}")
 
         results = {model: {} for model in models}
         for model in models:
