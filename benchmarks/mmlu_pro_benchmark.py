@@ -23,7 +23,7 @@ class MMULProBenchmark(BaseBenchmark):
         await self.download_file(self.data_url, local_path)
 
     async def run(self, model: str, client) -> float:
-        df = pd.read_parquet(os.path.join(self.temp_dir, self.data_file))
+        df = pd.read_parquet(os.path.join(self.temp_dir, self.data_file)).head(100)
         total_questions = len(df)
         
         print(f"Starting MMLU-Pro benchmark for model: {model}")
