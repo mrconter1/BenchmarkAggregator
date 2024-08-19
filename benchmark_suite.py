@@ -1,6 +1,5 @@
 from typing import List, Dict
 import inspect
-import importlib
 import benchmarks
 from benchmarks.base_benchmark import BaseBenchmark
 
@@ -43,6 +42,3 @@ class BenchmarkSuite:
             print(f"Results for model: {model}")
             for benchmark_id, score in benchmark_scores.items():
                 print(f"  {benchmark_id}: {score}")
-
-    def list_available_benchmarks(self):
-        return list(self.all_benchmarks.keys())
