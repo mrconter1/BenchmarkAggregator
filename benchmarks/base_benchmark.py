@@ -2,6 +2,8 @@ from abc import ABC, abstractmethod
 import os
 import tempfile
 import shutil
+import aiofiles
+import aiohttp
 
 class BaseBenchmark(ABC):
     def __init__(self):
@@ -9,15 +11,15 @@ class BaseBenchmark(ABC):
         self.temp_dir = None
 
     @abstractmethod
-    def setup(self):
+    async def setup(self):
         pass
 
     @abstractmethod
-    def run(self, model: str, client) -> float:
+    async def run(self, model: str, client) -> float:
         pass
 
     @abstractmethod
-    def cleanup(self):
+    async def cleanup(self):
         pass
 
     def create_temp_dir(self):
@@ -26,3 +28,20 @@ class BaseBenchmark(ABC):
     def remove_temp_dir(self):
         if self.temp_dir and os.path.exists(self.temp_dir):
             shutil.rmtree(self.temp_dir)
+
+    @staticmethod
+    async def download_file(url: str, local_path: str):
+        try:
+            async with aiohttp.ClientSession() as session:
+                async with session.get(url) as response:
+                    response.raise_for_status()
+                    async with aiofiles.open(local_path, 'wb') as file:
+                        while True:
+                            chunk = await response.content.read(8192)
+                            if not chunk:
+                                break
+                            await file.write(chunk)
+            print(f"File downloaded successfully and saved to {local_path}")
+        except Exception as e:
+            print(f"An error occurred while downloading the file: {e}")
+            raise

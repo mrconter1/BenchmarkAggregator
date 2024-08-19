@@ -1,13 +1,14 @@
 import os
 import importlib.util
+import asyncio
 from typing import List, Dict
 from benchmarks.base_benchmark import BaseBenchmark
-from api_handler import get_openrouter_client
+from api_handler import get_openrouter_client, RateLimitedClient
 
 class BenchmarkSuite:
     def __init__(self):
         self.all_benchmarks = self._discover_benchmarks()
-        self.client = get_openrouter_client()
+        self.client = None
 
     def _discover_benchmarks(self):
         discovered_benchmarks = {}
@@ -30,7 +31,7 @@ class BenchmarkSuite:
         
         return discovered_benchmarks
 
-    def run(self, models: List[str], benchmark_ids: List[str] = None) -> Dict[str, Dict[str, float]]:
+    async def run(self, models: List[str], benchmark_ids: List[str] = None) -> Dict[str, Dict[str, float]]:
         if benchmark_ids is None:
             benchmarks_to_run = self.all_benchmarks
         else:
@@ -39,16 +40,31 @@ class BenchmarkSuite:
                 missing = set(benchmark_ids) - set(benchmarks_to_run.keys())
                 print(f"Warning: The following benchmarks were not found: {missing}")
 
+        openai_client = get_openrouter_client()
+        self.client = RateLimitedClient(openai_client, rate_limit=5)
+
         results = {model: {} for model in models}
+        tasks = []
+
         for model in models:
             for benchmark_id, benchmark in benchmarks_to_run.items():
-                try:
-                    benchmark.setup()
-                    score = benchmark.run(model, self.client)
-                    results[model][benchmark_id] = score
-                finally:
-                    benchmark.cleanup()
+                task = asyncio.create_task(self._run_benchmark(model, benchmark_id, benchmark))
+                tasks.append(task)
+
+        benchmark_results = await asyncio.gather(*tasks)
+
+        for model, benchmark_id, score in benchmark_results:
+            results[model][benchmark_id] = score
+
         return results
+
+    async def _run_benchmark(self, model: str, benchmark_id: str, benchmark: BaseBenchmark):
+        try:
+            await benchmark.setup()
+            score = await benchmark.run(model, self.client)
+            return model, benchmark_id, score
+        finally:
+            await benchmark.cleanup()
 
     def print_results(self, results: Dict[str, Dict[str, float]]):
         for model, benchmark_scores in results.items():
