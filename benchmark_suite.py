@@ -2,9 +2,10 @@ import os
 import importlib.util
 import asyncio
 import json
-from typing import List, Dict
+from typing import List, Dict, Any
 from benchmarks.base_benchmark import BaseBenchmark
 from api_handler import get_openrouter_client, RateLimitedClient
+from model import Model
 
 class BenchmarkSuite:
     def __init__(self):
@@ -32,7 +33,7 @@ class BenchmarkSuite:
         
         return discovered_benchmarks
 
-    async def run(self, models: List[str], benchmark_ids: List[str] = None, samples_per_benchmark: int = None) -> Dict[str, Dict[str, float]]:
+    async def run(self, models: List[Model], benchmark_ids: List[str] = None, samples_per_benchmark: int = None) -> Dict[str, Dict[str, Any]]:
         if benchmark_ids is None:
             benchmarks_to_run = self.all_benchmarks
         else:
@@ -47,7 +48,7 @@ class BenchmarkSuite:
         # Load benchmark data once
         await self._load_benchmark_data(benchmarks_to_run, samples_per_benchmark)
 
-        results = {model: {} for model in models}
+        results = {model.id: {"releaseDate": model.release_date, "benchmarks": {}} for model in models}
         tasks = []
 
         for model in models:
@@ -58,7 +59,7 @@ class BenchmarkSuite:
         benchmark_results = await asyncio.gather(*tasks)
 
         for model, benchmark_id, score in benchmark_results:
-            results[model][benchmark_id] = score
+            results[model.id]["benchmarks"][benchmark_id] = score
 
         return results
 
@@ -73,33 +74,34 @@ class BenchmarkSuite:
                 self.benchmark_data[benchmark_id] = df
                 await benchmark.cleanup()
 
-    async def _run_benchmark(self, model: str, benchmark_id: str, benchmark_class):
+    async def _run_benchmark(self, model: Model, benchmark_id: str, benchmark_class):
         benchmark = benchmark_class()
         benchmark.df = self.benchmark_data[benchmark_id]  # Use pre-loaded data
         try:
-            score = await benchmark.run(model, self.client, self.benchmark_data[benchmark_id])
+            score = await benchmark.run(model.id, self.client, self.benchmark_data[benchmark_id])
             return model, benchmark_id, score
         finally:
             # No need to call cleanup here as we're not setting up each time
             pass
 
-    def print_results(self, results: Dict[str, Dict[str, float]]):
-        for model, benchmark_scores in results.items():
-            print(f"Results for model: {model}")
-            for benchmark_id, score in benchmark_scores.items():
+    def print_results(self, results: Dict[str, Dict[str, Any]]):
+        for model_id, model_data in results.items():
+            print(f"Results for model: {model_id} (Release Date: {model_data['releaseDate']})")
+            for benchmark_id, score in model_data['benchmarks'].items():
                 print(f"  {benchmark_id}: {score:.2%}")
 
-    def save_results_to_json(self, results: Dict[str, Dict[str, float]], filename='data.json'):
+    def save_results_to_json(self, results: Dict[str, Dict[str, Any]], filename='data.json'):
         formatted_results = []
-        for model, benchmark_scores in results.items():
-            model_data = {
-                "model": model,
+        for model_id, model_data in results.items():
+            model_result = {
+                "model": model_id,
+                "releaseDate": model_data['releaseDate'],
                 "benchmarks": [
-                    {"name": benchmark_id, "score": score}
-                    for benchmark_id, score in benchmark_scores.items()
+                    {"name": benchmark_id, "score": round(score * 100, 2)}
+                    for benchmark_id, score in model_data['benchmarks'].items()
                 ]
             }
-            formatted_results.append(model_data)
+            formatted_results.append(model_result)
         
         with open(filename, 'w') as f:
             json.dump(formatted_results, f, indent=2)

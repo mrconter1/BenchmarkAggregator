@@ -63,6 +63,7 @@ class ChatbotArenaBenchmark(BaseBenchmark):
         df_sorted = df.sort_values('ELO', ascending=False)
         df_sorted['normalized_score'] = df_sorted['normalized_score'].round(4)
 
+        # For debugging
         #print(tabulate(df_sorted, headers='keys', tablefmt='grid'))
 
         arena_model = self.model_mapping.get(model, model)
@@ -70,10 +71,6 @@ class ChatbotArenaBenchmark(BaseBenchmark):
             elo_score = df[df['Model'] == arena_model]['ELO'].values[0]
             normalized_score = df[df['Model'] == arena_model]['normalized_score'].values[0]
             rounded_normalized_score = round(normalized_score, 4)
-            print(f"Model: {model}")
-            print(f"Arena Model: {arena_model}")
-            print(f"ELO Score: {elo_score}")
-            print(f"Normalized Score: {normalized_score:.2f}")
             return rounded_normalized_score
         else:
             print(f"Warning: No data available for model {model}")

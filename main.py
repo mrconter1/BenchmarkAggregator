@@ -1,20 +1,21 @@
 from benchmark_suite import BenchmarkSuite
+from model import Model
 import asyncio
 
 async def main():
     suite = BenchmarkSuite()
 
-    # Specify which models to evaluate 
+    # Create Model instances using OpenRouter model ids and model release dates
     models = [
-        "openai/gpt-3.5-turbo-0613",
-        "openai/gpt-4o-mini-2024-07-18",
-        "openai/gpt-4o-2024-08-06",
-        "anthropic/claude-3-sonnet",
-        "anthropic/claude-3-opus",
-        "anthropic/claude-3.5-sonnet",
-        "meta-llama/llama-3.1-70b-instruct",
-        "meta-llama/llama-3.1-405b-instruct",
-        "mistralai/mistral-large"
+        Model("openai/gpt-3.5-turbo-0613", "2023-06-13"),
+        Model("openai/gpt-4o-mini-2024-07-18", "2024-07-18"),
+        Model("openai/gpt-4o-2024-08-06", "2024-08-06"),
+        Model("anthropic/claude-3-sonnet", "2024-02-29"),
+        Model("anthropic/claude-3-opus", "2024-02-29"),
+        Model("anthropic/claude-3.5-sonnet", "2024-06-20"),
+        Model("meta-llama/llama-3.1-70b-instruct", "2024-03-15"),
+        Model("meta-llama/llama-3.1-405b-instruct", "2024-03-15"),
+        Model("mistralai/mistral-large", "2024-07-01")
     ]
 
     # Specify which benchmarks to run

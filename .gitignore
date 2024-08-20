@@ -8,3 +8,4 @@ benchmarks/__pycache__/drop_benchmark.cpython-310.pyc
 .vscode/launch.json
 data.json
 benchmarks/__pycache__/chatbot_arena_benchmark.cpython-310.pyc
+__pycache__/model.cpython-310.pyc
