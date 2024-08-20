@@ -10,3 +10,4 @@ data.json
 benchmarks/__pycache__/chatbot_arena_benchmark.cpython-310.pyc
 __pycache__/model.cpython-310.pyc
 benchmarks/__pycache__/math_hard_benchmark.cpython-310.pyc
+benchmarks/__pycache__/musr_benchmark.cpython-310.pyc

@@ -24,7 +24,8 @@ async def main():
         #"GSM8K",
         #"GPQA-Diamond",
         #"ChatbotArena",
-        "MATH-Hard"
+        #"MATH-Hard",
+        #"MuSR"
     ]
 
     # Specify the number of samples to draw from each benchmark
