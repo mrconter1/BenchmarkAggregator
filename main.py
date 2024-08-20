@@ -6,7 +6,7 @@ async def main():
 
     # Specify which models to evaluate 
     models = [
-        #"anthropic/claude-3.5-sonnet",
+        "anthropic/claude-3.5-sonnet",
         "openai/gpt-4o-mini-2024-07-18",  # Added another model for testing
         # Add other models as needed
     ]
