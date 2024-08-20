@@ -27,7 +27,7 @@ async def main():
     ]
 
     # Specify the number of samples to draw from each benchmark
-    samples_per_benchmark = 2
+    samples_per_benchmark = 5
 
     # Run the benchmarks
     results = await suite.run(models, benchmark_ids, samples_per_benchmark)
