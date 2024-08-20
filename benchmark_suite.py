@@ -42,7 +42,7 @@ class BenchmarkSuite:
                 print(f"Warning: The following benchmarks were not found: {missing}")
 
         openai_client = get_openrouter_client()
-        self.client = RateLimitedClient(openai_client, rate_limit=10)
+        self.client = RateLimitedClient(openai_client, rate_limit=5)
 
         # Load benchmark data once
         await self._load_benchmark_data(benchmarks_to_run, samples_per_benchmark)

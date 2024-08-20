@@ -15,7 +15,7 @@ class RateLimitedClient:
         self.client = client
         self.limiter = AsyncLimiter(rate_limit, 1)  # rate_limit requests per second
 
-    async def query_model(self, model, prompt, max_retries=3):
+    async def query_model(self, model, prompt, max_retries=5):
         for attempt in range(max_retries):
             try:
                 async with self.limiter:

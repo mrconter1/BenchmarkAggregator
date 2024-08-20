@@ -17,9 +17,16 @@ class ChatbotArenaBenchmark(BaseBenchmark):
         self.temp_dir = tempfile.mkdtemp()
         self.repo_path = os.path.join(self.temp_dir, "chatbot-arena-leaderboard")
         self.model_mapping = {
-            "anthropic/claude-3.5-sonnet": "claude-3-5-sonnet-20240620",
+            "openai/gpt-3.5-turbo-0613": "gpt-3.5-turbo-0613",
             "openai/gpt-4o-mini-2024-07-18": "gpt-4o-mini-2024-07-18",
-            # Add more mappings as needed
+            "openai/gpt-4o-2024-08-06": "chatgpt-4o-latest-2024-08-08",
+            "anthropic/claude-3-sonnet": "claude-3-sonnet-20240229",
+            "anthropic/claude-3-opus": "claude-3-opus-20240229",
+            "anthropic/claude-3.5-sonnet": "claude-3-5-sonnet-20240620",
+            "google/gemini-pro-1.5-exp": "gemini-1.5-pro-exp-0801",
+            "meta-llama/llama-3.1-70b-instruct": "llama-3.1-70b-instruct",
+            "meta-llama/llama-3.1-405b-instruct": "llama-3.1-405b-instruct",
+            "mistralai/mistral-large": "mistral-large-2407"
         }
         self.repo = None
 
@@ -55,6 +62,8 @@ class ChatbotArenaBenchmark(BaseBenchmark):
             
         df_sorted = df.sort_values('ELO', ascending=False)
         df_sorted['normalized_score'] = df_sorted['normalized_score'].round(4)
+
+        #print(tabulate(df_sorted, headers='keys', tablefmt='grid'))
 
         arena_model = self.model_mapping.get(model, model)
         if arena_model in df['Model'].values:
