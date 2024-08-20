@@ -37,12 +37,7 @@ class BaseBenchmark(ABC):
     def check_answer(self, model_answer: str, correct_answer: Any) -> bool:
         pass
 
-    async def run(self, model: str, client, samples: int = None) -> float:
-        df = await self.get_dataset()
-        
-        if samples is not None and samples < len(df):
-            df = df.sample(n=samples, random_state=42)  # Use a fixed random state for reproducibility
-        
+    async def run(self, model: str, client, df: pd.DataFrame) -> float:
         total_questions = len(df)
         
         print(f"Starting {self.id} benchmark for model: {model}")
