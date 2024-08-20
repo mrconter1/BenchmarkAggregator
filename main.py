@@ -12,9 +12,9 @@ async def main():
         #Model("openai/gpt-4o-2024-08-06", "2024-08-06"),
         #Model("anthropic/claude-3-sonnet", "2024-02-29"),
         #Model("anthropic/claude-3-opus", "2024-02-29"),
-        Model("anthropic/claude-3.5-sonnet", "2024-06-20"),
+        #Model("anthropic/claude-3.5-sonnet", "2024-06-20"),
         #Model("meta-llama/llama-3.1-70b-instruct", "2024-07-23"),
-        Model("meta-llama/llama-3.1-405b-instruct", "2024-07-23"),
+        #Model("meta-llama/llama-3.1-405b-instruct", "2024-07-23"),
         #Model("mistralai/mistral-large", "2024-07-24")
     ]
 
@@ -25,7 +25,8 @@ async def main():
         #"GPQA-Diamond",
         #"ChatbotArena",
         #"MATH-Hard",
-        #"MuSR"
+        #"MuSR",
+        "ARC-Challenge"
     ]
 
     # Specify the number of samples to draw from each benchmark
