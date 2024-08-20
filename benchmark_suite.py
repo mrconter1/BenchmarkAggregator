@@ -87,7 +87,7 @@ class BenchmarkSuite:
         for model, benchmark_scores in results.items():
             print(f"Results for model: {model}")
             for benchmark_id, score in benchmark_scores.items():
-                print(f"  {benchmark_id}: {score}")
+                print(f"  {benchmark_id}: {score:.2%}")
 
     def save_results_to_json(self, results: Dict[str, Dict[str, float]], filename='data.json'):
         formatted_results = []
