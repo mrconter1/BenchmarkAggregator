@@ -44,7 +44,7 @@ class BenchmarkSuite:
         openai_client = get_openrouter_client()
         self.client = RateLimitedClient(openai_client, rate_limit=10)
 
-        # Load benchmark data for all benchmarks
+        # Load benchmark data once
         await self._load_benchmark_data(benchmarks_to_run, samples_per_benchmark)
 
         results = {model: {} for model in models}
@@ -63,31 +63,24 @@ class BenchmarkSuite:
         return results
 
     async def _load_benchmark_data(self, benchmarks_to_run, samples_per_benchmark):
-        data_loading_tasks = []
         for benchmark_id, benchmark_class in benchmarks_to_run.items():
-            task = asyncio.create_task(self._load_single_benchmark_data(benchmark_id, benchmark_class, samples_per_benchmark))
-            data_loading_tasks.append(task)
-        
-        await asyncio.gather(*data_loading_tasks)
-
-    async def _load_single_benchmark_data(self, benchmark_id, benchmark_class, samples):
-        benchmark = benchmark_class()
-        await benchmark.setup()
-        try:
-            df = await benchmark.get_dataset()
-            if samples is not None and samples < len(df):
-                df = df.sample(n=samples, random_state=42)
-            self.benchmark_data[benchmark_id] = df
-        finally:
-            await benchmark.cleanup()
+            if benchmark_id not in self.benchmark_data:
+                benchmark = benchmark_class()
+                await benchmark.setup()
+                df = await benchmark.get_dataset()
+                if (not benchmark.id == "ChatbotArena") and samples_per_benchmark is not None and samples_per_benchmark < len(df):
+                    df = df.sample(n=samples_per_benchmark, random_state=42)
+                self.benchmark_data[benchmark_id] = df
+                await benchmark.cleanup()
 
     async def _run_benchmark(self, model: str, benchmark_id: str, benchmark_class):
         benchmark = benchmark_class()
+        benchmark.df = self.benchmark_data[benchmark_id]  # Use pre-loaded data
         try:
             score = await benchmark.run(model, self.client, self.benchmark_data[benchmark_id])
             return model, benchmark_id, score
         finally:
-            # No need to call cleanup here as we've already cleaned up after loading the data
+            # No need to call cleanup here as we're not setting up each time
             pass
 
     def print_results(self, results: Dict[str, Dict[str, float]]):

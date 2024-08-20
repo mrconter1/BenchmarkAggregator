@@ -50,19 +50,12 @@ class ChatbotArenaBenchmark(BaseBenchmark):
         df['normalized_score'] = (df['ELO'] - min_score) / (max_score - min_score) * 100
         return df
 
-    async def run(self, model: str, client, samples: int = None) -> float:
-        await self.setup()
-        df = await self.get_dataset()
+    async def run(self, model: str, client, df: pd.DataFrame = None, samples: int = None) -> float:
         df = self.normalize_scores(df)
-        
+            
         df_sorted = df.sort_values('ELO', ascending=False)
         df_sorted['normalized_score'] = df_sorted['normalized_score'].round(2)
-        
-        # For debugging
-        #print(f"\nChatbot Arena ELO Leaderboard (as of {self.get_latest_elo_file().split('_')[2].split('.')[0]}):")
-        #print(tabulate(df_sorted, headers='keys', tablefmt='pretty', showindex=False))
-        #print("\n")
-        
+
         arena_model = self.model_mapping.get(model, model)
         if arena_model in df['Model'].values:
             elo_score = df[df['Model'] == arena_model]['ELO'].values[0]
