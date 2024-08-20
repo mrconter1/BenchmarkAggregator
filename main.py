@@ -26,7 +26,8 @@ async def main():
         #"ChatbotArena",
         #"MATH-Hard",
         #"MuSR",
-        "ARC-Challenge"
+        #"ARC-Challenge",
+        "HellaSwag"
     ]
 
     # Specify the number of samples to draw from each benchmark
