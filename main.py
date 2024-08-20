@@ -1,12 +1,13 @@
-import asyncio
 from benchmark_suite import BenchmarkSuite
+import asyncio
 
 async def main():
     suite = BenchmarkSuite()
 
     # Specify which models to evaluate 
     models = [
-        "openai/gpt-4o-mini-2024-07-18",
+        "anthropic/claude-3.5-sonnet",
+        "openai/gpt-4-0314",  # Added another model for testing
         # Add other models as needed
     ]
 
@@ -25,6 +26,9 @@ async def main():
 
     # Print the results
     suite.print_results(results)
+
+    # Save results to JSON
+    suite.save_results_to_json(results)
 
 if __name__ == "__main__":
     asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
