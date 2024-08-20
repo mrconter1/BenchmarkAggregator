@@ -9,7 +9,7 @@ class GSM8KBenchmark(BaseBenchmark):
         self.data_url = "https://huggingface.co/datasets/openai/gsm8k/resolve/main/main/test-00000-of-00001.parquet"
 
     async def get_dataset(self) -> pd.DataFrame:
-        return pd.read_parquet(os.path.join(self.temp_dir, self.data_file)).head(101)
+        return pd.read_parquet(os.path.join(self.temp_dir, self.data_file))
 
     def get_question(self, row: pd.Series) -> str:
         return f"Solve the following grade school math problem step by step:\n\n{row['question']}\n\nSolution:"

@@ -44,8 +44,7 @@ class GPQADiamondBenchmark(BaseBenchmark):
 
     def check_answer(self, model_answer: str, correct_answer: str) -> bool:
         try:
-            chosen_answer_index = ord(model_answer.strip().upper()) - ord('A')
-            return self.shuffled_options[chosen_answer_index] == correct_answer
+            return model_answer.strip().lower() == correct_answer
         except (ValueError, IndexError):
             return False
 

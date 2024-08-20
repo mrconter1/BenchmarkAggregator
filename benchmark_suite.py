@@ -31,7 +31,7 @@ class BenchmarkSuite:
         
         return discovered_benchmarks
 
-    async def run(self, models: List[str], benchmark_ids: List[str] = None) -> Dict[str, Dict[str, float]]:
+    async def run(self, models: List[str], benchmark_ids: List[str] = None, samples_per_benchmark: int = None) -> Dict[str, Dict[str, float]]:
         if benchmark_ids is None:
             benchmarks_to_run = self.all_benchmarks
         else:
@@ -48,7 +48,7 @@ class BenchmarkSuite:
 
         for model in models:
             for benchmark_id, benchmark in benchmarks_to_run.items():
-                task = asyncio.create_task(self._run_benchmark(model, benchmark_id, benchmark))
+                task = asyncio.create_task(self._run_benchmark(model, benchmark_id, benchmark, samples_per_benchmark))
                 tasks.append(task)
 
         benchmark_results = await asyncio.gather(*tasks)
@@ -58,10 +58,10 @@ class BenchmarkSuite:
 
         return results
 
-    async def _run_benchmark(self, model: str, benchmark_id: str, benchmark: BaseBenchmark):
+    async def _run_benchmark(self, model: str, benchmark_id: str, benchmark: BaseBenchmark, samples: int = None):
         try:
             await benchmark.setup()
-            score = await benchmark.run(model, self.client)
+            score = await benchmark.run(model, self.client, samples)
             return model, benchmark_id, score
         finally:
             await benchmark.cleanup()
@@ -70,4 +70,4 @@ class BenchmarkSuite:
         for model, benchmark_scores in results.items():
             print(f"Results for model: {model}")
             for benchmark_id, score in benchmark_scores.items():
-                print(f"  {benchmark_id}: {score}")
+                print(f"  {benchmark_id}: {score:.2%}")

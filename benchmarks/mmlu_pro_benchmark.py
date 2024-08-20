@@ -9,7 +9,7 @@ class MMULProBenchmark(BaseBenchmark):
         self.data_url = "https://huggingface.co/datasets/TIGER-Lab/MMLU-Pro/resolve/main/data/test-00000-of-00001.parquet"
 
     async def get_dataset(self) -> pd.DataFrame:
-        return pd.read_parquet(os.path.join(self.temp_dir, self.data_file)).head(100)
+        return pd.read_parquet(os.path.join(self.temp_dir, self.data_file))
 
     def get_question(self, row: pd.Series) -> str:
         question = row['question']
