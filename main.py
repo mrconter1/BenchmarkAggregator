@@ -6,16 +6,17 @@ async def main():
 
     # Specify which models to evaluate 
     models = [
-        "anthropic/claude-3.5-sonnet",
-        "openai/gpt-4-0314",  # Added another model for testing
+        #"anthropic/claude-3.5-sonnet",
+        "openai/gpt-4o-mini-2024-07-18",  # Added another model for testing
         # Add other models as needed
     ]
 
     # Specify which benchmarks to run
     benchmark_ids = [
-        "MMLU-Pro",
-        "GSM8K",
-        "GPQA-Diamond"
+        #"MMLU-Pro",
+        #"GSM8K",
+        #"GPQA-Diamond",
+        "ChatbotArena"
     ]
 
     # Specify the number of samples to draw from each benchmark
