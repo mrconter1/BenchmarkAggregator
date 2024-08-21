@@ -114,8 +114,8 @@ class BenchmarkSuite:
                     benchmark_info["samplesDrawn"] = drawn_samples
                     benchmark_info["totalSamples"] = total_samples
                 else:
-                    benchmark_info["samplesDrawn"] ="Not Applicable"
-                    benchmark_info["totalSamples"] ="Not Applicable"
+                    benchmark_info["samplesDrawn"] ="N/A"
+                    benchmark_info["totalSamples"] ="N/A"
                 
                 model_result["benchmarks"].append(benchmark_info)
             
