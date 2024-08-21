@@ -21,7 +21,6 @@ async def main():
     # Specify which benchmarks to run
     benchmark_ids = [
         #"MMLU-Pro",
-        #"GSM8K",
         #"GPQA-Diamond",
         #"ChatbotArena",
         #"MATH-Hard",
