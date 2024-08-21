@@ -7,7 +7,6 @@ import shutil
 import asyncio
 from datetime import datetime
 from benchmarks.base_benchmark import BaseBenchmark
-from tabulate import tabulate
 
 class ChatbotArenaBenchmark(BaseBenchmark):
     def __init__(self):
@@ -68,7 +67,6 @@ class ChatbotArenaBenchmark(BaseBenchmark):
 
         arena_model = self.model_mapping.get(model, model)
         if arena_model in df['Model'].values:
-            elo_score = df[df['Model'] == arena_model]['ELO'].values[0]
             normalized_score = df[df['Model'] == arena_model]['normalized_score'].values[0]
             rounded_normalized_score = round(normalized_score, 4)
             return rounded_normalized_score

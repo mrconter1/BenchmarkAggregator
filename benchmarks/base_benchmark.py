@@ -7,7 +7,7 @@ import aiohttp
 import pandas as pd
 from tqdm import tqdm
 import asyncio
-from typing import List, Dict, Any
+from typing import Any
 from urllib.parse import urlparse
 
 class BaseBenchmark(ABC):

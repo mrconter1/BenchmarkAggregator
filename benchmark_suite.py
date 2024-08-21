@@ -34,13 +34,10 @@ class BenchmarkSuite:
         return discovered_benchmarks
 
     async def run(self, models: List[Model], benchmark_ids: List[str] = None, samples_per_benchmark: int = None) -> Dict[str, Dict[str, Any]]:
-        if benchmark_ids is None:
-            benchmarks_to_run = self.all_benchmarks
-        else:
-            benchmarks_to_run = {bid: self.all_benchmarks[bid] for bid in benchmark_ids if bid in self.all_benchmarks}
-            if len(benchmarks_to_run) != len(benchmark_ids):
-                missing = set(benchmark_ids) - set(benchmarks_to_run.keys())
-                print(f"Warning: The following benchmarks were not found: {missing}")
+        benchmarks_to_run = {bid: self.all_benchmarks[bid] for bid in benchmark_ids if bid in self.all_benchmarks}
+        if len(benchmarks_to_run) != len(benchmark_ids):
+            missing = set(benchmark_ids) - set(benchmarks_to_run.keys())
+            print(f"Warning: The following benchmarks were not found: {missing}")
 
         openai_client = get_openrouter_client()
         self.client = RateLimitedClient(openai_client, rate_limit=5)

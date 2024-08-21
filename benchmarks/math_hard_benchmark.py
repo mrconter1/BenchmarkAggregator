@@ -56,8 +56,6 @@ class MathHardBenchmark(BaseBenchmark):
             return None
 
     def check_answer(self, model_answer: str, correct_answer: str) -> bool:
-        if correct_answer is None:
-            return False
         return model_answer.strip().lower() == correct_answer.strip().lower()
 
     def construct_prompt(self, question: str) -> str:
