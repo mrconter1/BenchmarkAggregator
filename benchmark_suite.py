@@ -11,7 +11,9 @@ class BenchmarkSuite:
     def __init__(self):
         self.all_benchmarks = self._discover_benchmarks()
         self.client = None
-        self.benchmark_data = {}
+        self.full_benchmark_data = {}
+        self.sampled_benchmark_data = {}
+        self.samples_per_benchmark = None
 
     def _discover_benchmarks(self):
         discovered_benchmarks = {}
@@ -34,6 +36,7 @@ class BenchmarkSuite:
         return discovered_benchmarks
 
     async def run(self, models: List[Model], benchmark_ids: List[str] = None, samples_per_benchmark: int = None) -> Dict[str, Dict[str, Any]]:
+        self.samples_per_benchmark = samples_per_benchmark
         benchmarks_to_run = {bid: self.all_benchmarks[bid] for bid in benchmark_ids if bid in self.all_benchmarks}
         if len(benchmarks_to_run) != len(benchmark_ids):
             missing = set(benchmark_ids) - set(benchmarks_to_run.keys())
@@ -62,23 +65,27 @@ class BenchmarkSuite:
 
     async def _load_benchmark_data(self, benchmarks_to_run, samples_per_benchmark):
         for benchmark_id, benchmark_class in benchmarks_to_run.items():
-            if benchmark_id not in self.benchmark_data:
+            if benchmark_id not in self.full_benchmark_data:
                 benchmark = benchmark_class()
                 await benchmark.setup()
                 df = await benchmark.get_dataset()
-                if (not benchmark.id == "ChatbotArena") and (not benchmark.id == "LiveBench") and samples_per_benchmark is not None and samples_per_benchmark < len(df):
-                    df = df.sample(n=samples_per_benchmark, random_state=42)
-                self.benchmark_data[benchmark_id] = df
+                self.full_benchmark_data[benchmark_id] = df
+                
+                if benchmark_id not in ["ChatbotArena", "LiveBench"] and samples_per_benchmark is not None and samples_per_benchmark < len(df):
+                    sampled_df = df.sample(n=samples_per_benchmark, random_state=42)
+                else:
+                    sampled_df = df
+                
+                self.sampled_benchmark_data[benchmark_id] = sampled_df
                 await benchmark.cleanup()
 
     async def _run_benchmark(self, model: Model, benchmark_id: str, benchmark_class):
         benchmark = benchmark_class()
-        benchmark.df = self.benchmark_data[benchmark_id]  # Use pre-loaded data
+        benchmark.df = self.sampled_benchmark_data[benchmark_id]  # Use sampled data for running
         try:
-            score = await benchmark.run(model.id, self.client, self.benchmark_data[benchmark_id])
+            score = await benchmark.run(model.id, self.client, self.sampled_benchmark_data[benchmark_id])
             return model, benchmark_id, score
         finally:
-            # No need to call cleanup here as we're not setting up each time
             pass
 
     def print_results(self, results: Dict[str, Dict[str, Any]]):
@@ -93,11 +100,24 @@ class BenchmarkSuite:
             model_result = {
                 "model": model_id,
                 "releaseDate": model_data['releaseDate'],
-                "benchmarks": [
-                    {"name": benchmark_id, "score": round(score * 100, 2)}
-                    for benchmark_id, score in model_data['benchmarks'].items()
-                ]
+                "benchmarks": []
             }
+            for benchmark_id, score in model_data['benchmarks'].items():
+                benchmark_info = {
+                    "name": benchmark_id,
+                    "score": round(score * 100, 2)
+                }
+                
+                if benchmark_id not in ["ChatbotArena", "LiveBench"]:
+                    total_samples = len(self.full_benchmark_data[benchmark_id])
+                    drawn_samples = len(self.sampled_benchmark_data[benchmark_id])
+                    benchmark_info["samplesDrawn"] = drawn_samples
+                    benchmark_info["totalSamples"] = total_samples
+                else:
+                    benchmark_info["samplesInfo"] = "Not Applicable"
+                
+                model_result["benchmarks"].append(benchmark_info)
+            
             formatted_results.append(model_result)
         
         with open(filename, 'w') as f:
