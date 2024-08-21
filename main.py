@@ -7,7 +7,6 @@ async def main():
 
     # Create Model instances using OpenRouter model ids and model release dates
     models = [
-        Model("openai/gpt-3.5-turbo-0613", "2023-06-13"),
         Model("openai/gpt-4o-mini-2024-07-18", "2024-07-18"),
         Model("openai/gpt-4o-2024-08-06", "2024-08-06"),
         Model("anthropic/claude-3-sonnet", "2024-02-29"),
@@ -20,14 +19,15 @@ async def main():
 
     # Specify which benchmarks to run
     benchmark_ids = [
-        "MMLU-Pro",
-        "GSM8K",
-        "GPQA-Diamond",
-        "ChatbotArena",
-        "MATH-Hard",
-        "MuSR",
-        "ARC-Challenge",
-        "HellaSwag"
+        #"MMLU-Pro",
+        #"GSM8K",
+        #"GPQA-Diamond",
+        #"ChatbotArena",
+        #"MATH-Hard",
+        #"MuSR",
+        #"ARC-Challenge",
+        #"HellaSwag",
+        "LiveBench"
     ]
 
     # Specify the number of samples to draw from each benchmark

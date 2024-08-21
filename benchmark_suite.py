@@ -66,7 +66,7 @@ class BenchmarkSuite:
                 benchmark = benchmark_class()
                 await benchmark.setup()
                 df = await benchmark.get_dataset()
-                if (not benchmark.id == "ChatbotArena") and samples_per_benchmark is not None and samples_per_benchmark < len(df):
+                if (not benchmark.id == "ChatbotArena") and (not benchmark.id == "LiveBench") and samples_per_benchmark is not None and samples_per_benchmark < len(df):
                     df = df.sample(n=samples_per_benchmark, random_state=42)
                 self.benchmark_data[benchmark_id] = df
                 await benchmark.cleanup()
