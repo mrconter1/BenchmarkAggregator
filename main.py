@@ -28,7 +28,8 @@ async def main():
         #"MuSR",
         #"ARC-Challenge",
         #"HellaSwag",
-        "LiveBench"
+        #"LiveBench",
+        "MGSM"
     ]
 
     # Specify the number of samples to draw from each benchmark
