@@ -16,7 +16,7 @@ class ChatbotArenaBenchmark(BaseBenchmark):
         self.temp_dir = tempfile.mkdtemp()
         self.repo_path = os.path.join(self.temp_dir, "chatbot-arena-leaderboard")
         self.model_mapping = {
-            "openai/gpt-3.5-turbo-0613": "gpt-3.5-turbo-0613",
+            "openai/gpt-3.5-turbo-0125": "gpt-3.5-turbo-0125",
             "openai/gpt-4o-mini-2024-07-18": "gpt-4o-mini-2024-07-18",
             "openai/gpt-4o-2024-08-06": "chatgpt-4o-latest-2024-08-08",
             "anthropic/claude-3-sonnet": "claude-3-sonnet-20240229",
