@@ -11,7 +11,6 @@ async def main():
         Model("openai/gpt-4o-mini-2024-07-18", "2024-07-18"),
         Model("openai/gpt-4o-2024-08-06", "2024-08-06"),
         Model("anthropic/claude-3-sonnet", "2024-02-29"),
-        Model("anthropic/claude-3-opus", "2024-02-29"),
         Model("anthropic/claude-3.5-sonnet", "2024-06-20"),
         Model("meta-llama/llama-3.1-70b-instruct", "2024-07-23"),
         Model("meta-llama/llama-3.1-405b-instruct", "2024-07-23"),
@@ -32,7 +31,7 @@ async def main():
     ]
 
     # Specify the number of samples to draw from each benchmark
-    samples_per_benchmark = 2
+    samples_per_benchmark = 100
 
     # Run the benchmarks
     results = await suite.run(models, benchmark_ids, samples_per_benchmark)

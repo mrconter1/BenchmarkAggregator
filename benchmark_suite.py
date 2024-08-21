@@ -72,7 +72,7 @@ class BenchmarkSuite:
                 self.full_benchmark_data[benchmark_id] = df
                 
                 if benchmark_id not in ["ChatbotArena", "LiveBench"] and samples_per_benchmark is not None and samples_per_benchmark < len(df):
-                    sampled_df = df.sample(n=samples_per_benchmark, random_state=42)
+                    sampled_df = df.sample(n=samples_per_benchmark, random_state=1337)
                 else:
                     sampled_df = df
                 
