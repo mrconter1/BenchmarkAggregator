@@ -9,7 +9,7 @@ Rigorous, unbiased, and adaptable LLM evaluations across diverse AI benchmarks.
 
 ## 🎯 Introduction
 
-The BenchmarkAggregator framework addresses the critical need for consistent model evaluation in the AI community. By providing comprehensive comparisons of Large Language Models (LLMs) across challenging, well-respected benchmarks, it offers a holistic view of model performance. Our approach balances depth of evaluation with resource constraints, ensuring fair comparisons while maintaining practicality.
+The BenchmarkAggregator framework serves as a **central** hub, addressing the critical need for consistent model evaluation in the AI community. By providing comprehensive comparisons of Large Language Models (LLMs) across challenging, well-respected benchmarks in one unified location, it offers a holistic, fair, and scalable view of model performance. Our approach balances depth of evaluation with resource constraints, ensuring fair comparisons while maintaining practicality and accessibility from a single, authoritative source.
 
 ## 📊 Model Performance Overview
 
@@ -35,7 +35,19 @@ For detailed scores across all benchmarks, visit our [leaderboard](https://bench
 5. ⚖️ Efficient approach balancing evaluation depth with resource constraints
 
 ## 🏆 Current Benchmarks
-1. [MMLU-Pro](https://huggingface.co/datasets/TIGER-Lab/MMLU-Pro) 2. [GPQA-Diamond](https://huggingface.co/datasets/Idavidrein/gpqa) 3. [ChatbotArena](https://chat.lmsys.org/) 4. [MATH-Hard](https://huggingface.co/datasets/lighteval/MATH-Hard) 5. [MuSR](https://huggingface.co/datasets/TAUR-Lab/MuSR) 6. [ARC-Challenge](https://huggingface.co/datasets/allenai/ai2_arc) 7. [HellaSwag](https://rowanzellers.com/hellaswag/) 8. [LiveBench](https://livebench.ai/) 9. [MGSM](https://huggingface.co/datasets/juletxara/mgsm) 📖 [Learn more about each benchmark on our website](https://benchmark-aggregator-lvss.vercel.app/) ## 🤔 FAQ
+1. [MMLU-Pro](https://huggingface.co/datasets/TIGER-Lab/MMLU-Pro)
+2. [GPQA-Diamond](https://huggingface.co/datasets/Idavidrein/gpqa)
+3. [ChatbotArena](https://chat.lmsys.org/) 
+4. [MATH-Hard](https://huggingface.co/datasets/lighteval/MATH-Hard) 
+5. [MuSR](https://huggingface.co/datasets/TAUR-Lab/MuSR) 
+6. [ARC-Challenge](https://huggingface.co/datasets/allenai/ai2_arc) 
+7. [HellaSwag](https://rowanzellers.com/hellaswag/) 
+8. [LiveBench](https://livebench.ai/) 
+9. [MGSM](https://huggingface.co/datasets/juletxara/mgsm) 
+
+📖 [Learn more about each benchmark on our website](https://benchmark-aggregator-lvss.vercel.app/)
+
+## 🤔 FAQ
 
 <details>
 <summary>Why not run all questions for each benchmark?</summary>
