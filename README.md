@@ -30,7 +30,7 @@ For detailed scores across all benchmarks, visit our [leaderboard](https://bench
 
 1. 🏆 Incorporates top, most respected benchmarks in the AI community
 2. 📊 Balanced evaluation using 100 randomly drawn samples per benchmark (adjustable)
-3. 🔌 Trivial and quick integration of new benchmarks and models
+3. 🔌 Quick and easy integration of new benchmarks and models (uses [OpenRouter](https://openrouter.ai/), making the addition of new models absolutely trivial)
 4. 📈 Holistic performance view through score averaging across diverse tasks
 5. ⚖️ Efficient approach balancing evaluation depth with resource constraints
 
@@ -66,7 +66,7 @@ These models are significantly more expensive to query compared to many others. 
 
 <details>
 <summary>How easy is it to add new benchmarks or models?</summary>
-Adding new benchmarks or models is designed to be quick and efficient. For benchmarks, it can take only a few minutes to integrate an existing one. For models, we use OpenRouter, which covers basically all closed and open-source options. To add a model, simply find its ID on the OpenRouter website and include it in our framework.
+Adding new benchmarks or models is designed to be quick and efficient. For benchmarks, it can take only a few minutes to integrate an existing one. For models, we use [OpenRouter](https://openrouter.ai/), which covers basically all closed and open-source options. **To add a model, simply find its ID on the OpenRouter website and include it in our framework. This makes adding new models absolutely trivial!**
 </details>
 
 <details>
@@ -82,7 +82,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🙏 Acknowledgments
 
-We're grateful to the creators and maintainers of the benchmark datasets used in this project. 
+We're grateful to the creators and maintainers of the benchmark datasets used in this project, as well as to [OpenRouter](https://openrouter.ai/) for making model integration seamless.
 
 ---
 
