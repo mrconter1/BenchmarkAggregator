@@ -51,17 +51,26 @@ For detailed scores across all benchmarks, visit our [leaderboard](https://bench
 
 <details>
 <summary>Why not run all questions for each benchmark?</summary>
-Cost considerations. Our approach balances evaluation depth with resource constraints.
+Running all questions for each benchmark would be cost-prohibitive. Our approach balances comprehensive evaluation with practical resource constraints.
 </details>
 
 <details>
 <summary>How are benchmark samples chosen?</summary>
-Random selection, ensuring consistency across all model evaluations.
+The samples are randomly drawn from the larger benchmark dataset. The same sample set is used for each model to ensure consistency and fair comparison across all evaluations.
 </details>
 
 <details>
-<summary>What does (N = x) mean in benchmark headers?</summary>
-Total questions in the benchmark. N/A for Chatbot Arena and LiveBench (results fetched externally).
+<summary>Why are certain models like Claude 3 Opus and GPT-4 turbo absent?</summary>
+These models are significantly more expensive to query compared to many others. Their absence is due to cost considerations in running the benchmarks.
+</details>
+
+<details>
+<summary>How easy is it to add new benchmarks or models?</summary>
+Adding new benchmarks or models is designed to be quick and efficient. For benchmarks, it can take only a few minutes to integrate an existing one. For models, we use [OpenRouter](https://openrouter.ai/), which covers basically all closed and open-source options. To add a model, simply find its ID on the OpenRouter website and include it in our framework.
+</details>
+
+<summary>How are the scores from Chatbot Arena calculated?</summary>
+The scores for Chatbot Arena are fetched directly from their website. These scores are then normalized against the values of other models in this benchmark.
 </details>
 
 👉 [View more FAQs on our website](https://benchmark-aggregator-lvss.vercel.app/)
