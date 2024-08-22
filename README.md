@@ -5,7 +5,7 @@
 
 Rigorous, unbiased, and adaptable LLM evaluations across diverse AI benchmarks.
 
-[View Leaderboard](https://benchmark-aggregator-lvss.vercel.app/) | [Explore Benchmarks](#benchmarks) | [FAQ](#faq)
+[View Leaderboard](https://benchmark-aggregator-lvss.vercel.app/) | [Features](#features) | [Benchmarks](#current-benchmarks) | [FAQ](#faq)
 
 ## 🎯 Introduction
 
@@ -26,7 +26,7 @@ The BenchmarkAggregator framework addresses the critical need for consistent mod
 
 For detailed scores across all benchmarks, visit our [leaderboard](https://benchmark-aggregator-lvss.vercel.app/).
 
-## 🌟 Features
+## Features
 
 1. 🏆 Incorporates top, most respected benchmarks in the AI community
 2. 📊 Balanced evaluation using 100 randomly drawn samples per benchmark (adjustable)
@@ -34,7 +34,7 @@ For detailed scores across all benchmarks, visit our [leaderboard](https://bench
 4. 📈 Holistic performance view through score averaging across diverse tasks
 5. ⚖️ Efficient approach balancing evaluation depth with resource constraints
 
-## 🏆 Current Benchmarks
+## Current Benchmarks
 
 1. [MMLU-Pro](https://huggingface.co/datasets/TIGER-Lab/MMLU-Pro)
 2. [GPQA-Diamond](https://huggingface.co/datasets/Idavidrein/gpqa)
@@ -48,7 +48,7 @@ For detailed scores across all benchmarks, visit our [leaderboard](https://bench
 
 📖 [Learn more about each benchmark on our website](https://benchmark-aggregator-lvss.vercel.app/)
 
-## 🤔 FAQ
+## FAQ
 
 <details>
 <summary>Why not run all questions for each benchmark?</summary>
