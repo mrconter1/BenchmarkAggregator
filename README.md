@@ -5,6 +5,8 @@
 
 Rigorous, unbiased, and scalable LLM evaluations across diverse AI benchmarks, from GPQA Diamond to Chatbot Arena, testing all major models equally.
 
+<img src="https://github.com/user-attachments/assets/4d164e83-d527-4da9-ac43-4366d70a0f04" width="600" alt="BenchmarkAggregator Dashboard">
+
 [View Leaderboard](https://benchmark-aggregator-lvss.vercel.app/) | [Features](#🌟-features) | [Benchmarks](#🏆-current-benchmarks) | [FAQ](#🤔-faq)
 
 ## 🎯 Introduction
