@@ -9,7 +9,7 @@ Rigorous, unbiased, and scalable LLM evaluations across diverse AI benchmarks.
 
 ## 🎯 Introduction
 
-The BenchmarkAggregator framework serves as a **central** hub, addressing the critical need for consistent model evaluation in the AI community. By providing comprehensive comparisons of Large Language Models (LLMs) across challenging, well-respected benchmarks in one unified location, it offers a holistic, fair, and scalable view of model performance. Our approach balances depth of evaluation with resource constraints, ensuring fair comparisons while maintaining practicality and accessibility from a single, authoritative source.
+The BenchmarkAggregator framework serves as a **central** hub, addressing the critical need for consistent model evaluation in the AI community. By providing comprehensive comparisons of Large Language Models (LLMs) across all challenging, well-respected benchmarks in one unified location, it offers a holistic, fair, and scalable view of model performance. Our approach balances depth of evaluation with resource constraints, ensuring fair comparisons while maintaining practicality and accessibility from a single, authoritative source.
 
 ## 📊 Model Performance Overview
 
