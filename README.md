@@ -66,9 +66,10 @@ These models are significantly more expensive to query compared to many others. 
 
 <details>
 <summary>How easy is it to add new benchmarks or models?</summary>
-Adding new benchmarks or models is designed to be quick and efficient. For benchmarks, it can take only a few minutes to integrate an existing one. For models, we use [OpenRouter](https://openrouter.ai/), which covers basically all closed and open-source options. To add a model, simply find its ID on the OpenRouter website and include it in our framework.
+Adding new benchmarks or models is designed to be quick and efficient. For benchmarks, it can take only a few minutes to integrate an existing one. For models, we use OpenRouter, which covers basically all closed and open-source options. To add a model, simply find its ID on the OpenRouter website and include it in our framework.
 </details>
 
+<details>
 <summary>How are the scores from Chatbot Arena calculated?</summary>
 The scores for Chatbot Arena are fetched directly from their website. These scores are then normalized against the values of other models in this benchmark.
 </details>
