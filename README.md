@@ -76,6 +76,10 @@ The scores for Chatbot Arena are fetched directly from their website. These scor
 
 👉 [View more FAQs on our website](https://benchmark-aggregator-lvss.vercel.app/)
 
+## 🤝 Contributing
+
+We welcome contributions from the community! If you have any questions, suggestions, or requests, please don't hesitate to create an issue. Your input is valuable in helping us improve and expand the BenchmarkAggregator.
+
 ## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
