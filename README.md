@@ -3,7 +3,7 @@
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
 [![Contributions Welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/yourusername/benchmarkaggregator/issues)
 
-Rigorous, unbiased, and adaptable LLM evaluations across diverse AI benchmarks.
+Rigorous, unbiased, and scalable LLM evaluations across diverse AI benchmarks.
 
 [View Leaderboard](https://benchmark-aggregator-lvss.vercel.app/) | [Features](#🌟-features) | [Benchmarks](#🏆-current-benchmarks) | [FAQ](#🤔-faq)
 
